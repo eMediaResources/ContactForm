@@ -10,13 +10,13 @@
 
 {{ forms.textField({
 	first:        true,
+	autofocus:    true,
 	label:        "To Email"|t,
 	required:     true,
 	id:           'toEmail',
 	name:         'toEmail',
 	instructions: "The email address(es) that the contact form will send to. Separate multiple email addresses with commas."|t,
 	value:        settings.toEmail,
-	autofocus:    true,
 	disabled:     (craft.config.get('toEmail', 'contactform') is not sameas(null)),
 	warning:      (craft.config.get('toEmail', 'contactform') is not sameas(null)) ? configWarning('toEmail'),
 	errors:       settings.getErrors('toEmail')
@@ -35,13 +35,12 @@
 
 {{ forms.textField({
 	label:        "Subject Text"|t,
-	id:           'prependSubject',
-	name:         'prependSubject',
-	instructions: "Text that will be prepended to the email’s Subject to flag that it comes from the Contact Form."|t,
-	value:        (settings.prependSubject ? settings.prependSubject : ""),
-	disabled:     (craft.config.get('prependSubject', 'contactform') is not sameas(null)),
-	warning:      (craft.config.get('prependSubject', 'contactform') is not sameas(null)) ? configWarning('prependSubject'),
-	errors:       settings.getErrors('prependSubject')
+	id:           'subject',
+	name:         'subject',
+	value:        (settings.subject ? settings.subject : ""),
+	disabled:     (craft.config.get('subject', 'contactform') is not sameas(null)),
+	warning:      (craft.config.get('subject', 'contactform') is not sameas(null)) ? configWarning('subject'),
+	errors:       settings.getErrors('subject')
 }) }}
 
 {{ forms.lightswitchField({
@@ -67,11 +66,11 @@
 
 {{ forms.textField({
 	label:        "Success Flash Message"|t,
-	id:           "successFlashMessage",
-	name:         "successFlashMessage",
+	id:           "successMessage",
+	name:         "successMessage",
 	instructions: "The flash message displayed after successfully sending a message."|t,
-	value:        settings.successFlashMessage,
-	disabled:     (craft.config.get('successFlashMessage', 'contactform') is not sameas(null)),
-	warning:      (craft.config.get('successFlashMessage', 'contactform') is not sameas(null)) ? configWarning('successFlashMessage'),
-	errors:       settings.getErrors('successFlashMessage')
+	value:        settings.successMessage,
+	disabled:     (craft.config.get('successMessage', 'contactform') is not sameas(null)),
+	warning:      (craft.config.get('successMessage', 'contactform') is not sameas(null)) ? configWarning('successMessage'),
+	errors:       settings.getErrors('successMessage')
 }) }}

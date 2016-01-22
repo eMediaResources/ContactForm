@@ -1,17 +1,15 @@
 <?php
 namespace Craft;
 
-class ContactFormModel extends BaseModel
-{
-	protected function defineAttributes()
-	{
+class ContactFormModel extends BaseModel {
+	protected function defineAttributes() {
 		return array(
-			'fromName'          => array(AttributeType::String, 'label' => 'Your Name'),
-			'fromEmail'         => array(AttributeType::Email,  'required' => true, 'label' => 'Your Email'),
-			'message'           => array(AttributeType::String, 'required' => true, 'label' => 'Message'),
-			'messageFields'     => array(AttributeType::Mixed),
-			'subject'           => array(AttributeType::String, 'label' => 'Subject'),
-			'attachment'        => AttributeType::Mixed,
+			'id' => AttributeType::Number,
+			'name' => array(AttributeType::String, 'label' => 'Your Name'),
+			'email' => array(AttributeType::Email,  'required' => true, 'label' => 'Your Email'),
+			'message' => array(AttributeType::String, 'required' => true, 'label' => 'Message'),
+			'attachment' => AttributeType::Mixed,
+			'dateCreated' => AttributeType::DateTime,
 		);
 	}
 }

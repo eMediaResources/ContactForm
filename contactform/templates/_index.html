@@ -1,0 +1,30 @@
+{% extends '_layouts/cp' %}
+{% set title = "Entries"|t %}
+{% set content %}
+	<div class="tableview">
+	<table class="data fullwidth">
+		<thead>
+			<tr>
+				<th scope="col" data-attribute="userName">
+					User Name
+				</th>
+				<th scope="col" data-attribute="Email">
+					Email
+				</th>
+				<th scope="col" data-attribute="dateCreated">
+					Date Created
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for entry in entries %}
+				<tr data-id="{{ entry.id }}" data-name="{{ entry.name|t }}">
+					<td>{{ entry.name }}</td>
+					<td>{{ entry.email }}</td>
+					<td>{{ entry.dateCreated|date('d-m-Y') }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endset %}

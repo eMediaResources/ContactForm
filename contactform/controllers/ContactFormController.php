@@ -4,22 +4,17 @@ namespace Craft;
 /**
  * Contact Form controller
  */
-class ContactFormController extends BaseController
-{
-	/**
-	 * @var Allows anonymous access to this controller's actions.
-	 * @access protected
-	 */
+class ContactFormController extends BaseController {
+
 	protected $allowAnonymous = true;
 
+	public function actionIndex(){
+        $variables['entries'] = craft()->contactForm->getEntries();
 
-	/**
-	 * Sends an email based on the posted params.
-	 *
-	 * @throws Exception
-	 */
-	public function actionSendMessage()
-	{
+        $this->renderTemplate('contactForm/_index', $variables);
+	}
+
+	public function actionAddMessage() {
 		$this->requirePostRequest();
 
 		$settings = craft()->plugins->getPlugin('contactform')->getSettings();
@@ -27,20 +22,14 @@ class ContactFormController extends BaseController
 		$message = new ContactFormModel();
 		$savedBody = false;
 
-		$message->fromEmail  = craft()->request->getPost('fromEmail');
-		$message->fromName	 = craft()->request->getPost('fromName');
-		$message->subject    = craft()->request->getPost('subject');
+		$message->email = craft()->request->getPost('email');
+		$message->name = craft()->request->getPost('name');
 
-		if ($settings->allowAttachments)
-		{
-			if (isset($_FILES['attachment']) && isset($_FILES['attachment']['name']))
-			{
-				if (is_array($_FILES['attachment']['name']))
-				{
+		if ($settings->allowAttachments) {
+			if (isset($_FILES['attachment']) && isset($_FILES['attachment']['name'])) {
+				if (is_array($_FILES['attachment']['name'])) {
 					$message->attachment = \CUploadedFile::getInstancesByName('attachment');
-				}
-				else
-				{
+				} else {
 					$message->attachment = array(\CUploadedFile::getInstanceByName('attachment'));
 				}
 			}
@@ -50,52 +39,38 @@ class ContactFormController extends BaseController
 		// Set the message body
 		$postedMessage = craft()->request->getPost('message');
 
-		if ($postedMessage)
-		{
-			if (is_array($postedMessage))
-			{
-				// Capture all of the message fields on the model in case there's a validation error
-				$message->messageFields = $postedMessage;
+		if ($postedMessage) {
+			if (is_array($postedMessage)) {
+				$savedBody = false;
 
-				// Capture the original message body
-				if (isset($postedMessage['body']))
-				{
+				if (isset($postedMessage['body'])) {
 					// Save the message body in case we need to reassign it in the event there's a validation error
 					$savedBody = $postedMessage['body'];
 				}
 
 				// If it's false, then there was no messages[body] input submitted.  If it's '', then validation needs to fail.
-				if ($savedBody === false || $savedBody !== '')
-				{
+				if ($savedBody === false || $savedBody !== '') {
 					// Compile the message from each of the individual values
 					$compiledMessage = '';
 
-					foreach ($postedMessage as $key => $value)
-					{
-						if ($key != 'body')
-						{
-							if ($compiledMessage)
-							{
-								$compiledMessage .= "  \n";
+					foreach ($postedMessage as $key => $value) {
+						if ($key != 'body') {
+							if ($compiledMessage) {
+								$compiledMessage .= "\n\n";
 							}
 
 							$compiledMessage .= $key.': ';
 
-							if (is_array($value))
-							{
+							if (is_array($value)) {
 								$compiledMessage .= implode(', ', $value);
-							}
-							else
-							{
+							} else {
 								$compiledMessage .= $value;
 							}
 						}
 					}
 
-					if (!empty($postedMessage['body']))
-					{
-						if ($compiledMessage)
-						{
+					if (!empty($postedMessage['body'])) {
+						if ($compiledMessage) {
 							$compiledMessage .= "\n\n";
 						}
 
@@ -104,50 +79,37 @@ class ContactFormController extends BaseController
 
 					$message->message = $compiledMessage;
 				}
-			}
-			else
-			{
+			} else {
 				$message->message = $postedMessage;
-				$message->messageFields = array('body' => $postedMessage);
 			}
 		}
 
-		if ($message->validate())
-		{
+		if ($message->validate()) {
 			// Only actually send it if the honeypot test was valid
-			if (!$this->validateHoneypot($settings->honeypotField) || craft()->contactForm->sendMessage($message))
-			{
-				if (craft()->request->isAjaxRequest())
-				{
-					$this->returnJson(array('success' => true));
-				}
-				else
-				{
-					// Deprecated. Use 'redirect' instead.
+			if (!$this->validateHoneypot($settings->honeypotField) || craft()->contactForm->sendMessage($message)) {
+				craft()->contactForm->saveMessage($message);
+				if (craft()->request->isAjaxRequest()) {
+					$this->returnJson(array('success' => true, 'message' => $settings->successMessage));
+				} else {
 					$successRedirectUrl = craft()->request->getPost('successRedirectUrl');
 
-					if ($successRedirectUrl)
-					{
+					if ($successRedirectUrl) {
 						$_POST['redirect'] = $successRedirectUrl;
 					}
 
-					craft()->userSession->setNotice($settings->successFlashMessage);
+					craft()->userSession->setNotice($settings->successMessage);
 					$this->redirectToPostedUrl($message);
 				}
 			}
 		}
 
 		// Something has gone horribly wrong.
-		if (craft()->request->isAjaxRequest())
-		{
+		if (craft()->request->isAjaxRequest()) {
 			return $this->returnErrorJson($message->getErrors());
-		}
-		else
-		{
+		} else {
 			craft()->userSession->setError('There was a problem with your submission, please check the form and try again!');
 
-			if ($savedBody !== false)
-			{
+			if ($savedBody !== false) {
 				$message->message = $savedBody;
 			}
 
@@ -157,16 +119,8 @@ class ContactFormController extends BaseController
 		}
 	}
 
-	/**
-	 * Checks that the 'honeypot' field has not been filled out (assuming one has been set).
-	 *
-	 * @param string $fieldName The honeypot field name.
-	 * @return bool
-	 */
-	protected function validateHoneypot($fieldName)
-	{
-		if (!$fieldName)
-		{
+	protected function validateHoneypot($fieldName) {
+		if (!$fieldName) {
 			return true;
 		}
 
