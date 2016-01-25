@@ -10,7 +10,6 @@
 	instructions: "The email address(es) that the contact form will send to. Separate multiple email addresses with commas."|t,
 	value:        settings.toEmail,
 	disabled:     (craft.config.get('toEmail', 'contactform') is not sameas(null)),
-	warning:      (craft.config.get('toEmail', 'contactform') is not sameas(null)) ? configWarning('toEmail'),
 	errors:       settings.getErrors('toEmail')
 }) }}
 
@@ -21,7 +20,6 @@
 	instructions: "Text that will be prepended to the email’s From Name to inform who the Contact Form actually was sent by."|t,
 	value:        (settings.prependSender ? settings.prependSender : ""),
 	disabled:     (craft.config.get('prependSender', 'contactform') is not sameas(null)),
-	warning:      (craft.config.get('prependSender', 'contactform') is not sameas(null)) ? configWarning('prependSender'),
 	errors:       settings.getErrors('prependSender')
 }) }}
 
@@ -31,7 +29,6 @@
 	name:         'subject',
 	value:        (settings.subject ? settings.subject : ""),
 	disabled:     (craft.config.get('subject', 'contactform') is not sameas(null)),
-	warning:      (craft.config.get('subject', 'contactform') is not sameas(null)) ? configWarning('subject'),
 	errors:       settings.getErrors('subject')
 }) }}
 
@@ -41,7 +38,6 @@
 	name:         'allowAttachments',
 	on:           settings.allowAttachments,
 	disabled:     (craft.config.get('allowAttachments', 'contactform') is not sameas(null)),
-	warning:      (craft.config.get('allowAttachments', 'contactform') is not sameas(null)) ? configWarning('allowAttachments'),
 	errors:       settings.getErrors('allowAttachments')
 }) }}
 
@@ -52,7 +48,6 @@
 	instructions: "The name of the 'honeypot' field in your Contact Form."|t,
 	value:        settings.honeypotField,
 	disabled:     (craft.config.get('honeypotField', 'contactform') is not sameas(null)),
-	warning:      (craft.config.get('honeypotField', 'contactform') is not sameas(null)) ? configWarning('honeypotField'),
 	errors:       settings.getErrors('honeypotField')
 }) }}
 
@@ -63,6 +58,5 @@
 	instructions: "The flash message displayed after successfully sending a message."|t,
 	value:        settings.successMessage,
 	disabled:     (craft.config.get('successMessage', 'contactform') is not sameas(null)),
-	warning:      (craft.config.get('successMessage', 'contactform') is not sameas(null)) ? configWarning('successMessage'),
 	errors:       settings.getErrors('successMessage')
 }) }}
