@@ -1,13 +1,5 @@
 {% import "_includes/forms" as forms %}
 
-{% macro configWarning(setting) -%}
-	{{ "This is being overridden by the {setting} config setting in your contactform.php config file."|t({
-		setting: setting
-	})|raw }}
-{%- endmacro %}
-
-{% from _self import configWarning %}
-
 {{ forms.textField({
 	first:        true,
 	autofocus:    true,

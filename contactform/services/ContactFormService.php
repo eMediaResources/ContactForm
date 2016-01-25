@@ -42,7 +42,7 @@ class ContactFormService extends BaseApplicationComponent {
 							}
 						}
 					}
-					// craft()->email->sendEmail($email);
+					craft()->email->sendEmail($email);
 				}
 			}
 
