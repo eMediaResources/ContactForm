@@ -33,35 +33,27 @@ Your contact form template can look something like this:
     <input type="hidden" name="action" value="contactForm/sendMessage">
     <input type="hidden" name="redirect" value="contact/thanks">
 
-    <h3><label for="fromName">Your Name</label></h3>
-    <input id="fromName" type="text" name="fromName" value="{% if message is defined %}{{ message.fromName }}{% endif %}">
-    {{ message is defined and message ? errorList(message.getErrors('fromName')) }}
+    <h3><label for="name">Your Name</label></h3>
+    <input id="name" type="text" name="name" value="{% if message is defined %}{{ message.name }}{% endif %}">
 
-    <h3><label for="fromEmail">Your Email</label></h3>
-    <input id="fromEmail" type="text" name="fromEmail" value="{% if message is defined %}{{ message.fromEmail }}{% endif %}">
-    {{ message is defined and message ? errorList(message.getErrors('fromEmail')) }}
-
-    <h3><label for="subject">Subject</label></h3>
-    <input id="subject" type="text" name="subject" value="{% if message is defined %}{{ message.subject }}{% endif %}">
-    {{ message is defined and message ? errorList(message.getErrors('subject')) }}
+    <h3><label for="email">Your Email</label></h3>
+    <input id="email" type="text" name="email" value="{% if message is defined %}{{ message.email }}{% endif %}">
 
     <h3><label for="message">Message</label></h3>
     <textarea rows="10" cols="40" id="message" name="message">{% if message is defined %}{{ message.message }}{% endif %}</textarea>
-    {{ message is defined and message ? errorList(message.getErrors('message')) }}
 
     <input type="submit" value="Send">
 </form>
 ```
 
-The only required fields are “fromEmail” and “message”. Everything else is optional.
+The only required fields are “email” and “message”. Everything else is optional.
 
 ### Redirecting after submit
 
 If you have a ‘redirect’ hidden input, the user will get redirected to it upon successfully sending the email. The following variables can be used within the URL/path you set:
 
-- `{fromName}`
-- `{fromEmail}`
-- `{subject}`
+- `{name}`
+- `{email}`
 
 For example, if you wanted to redirect to a “contact/thanks” page and pass the sender’s name to it, you could set the input like this:
 
@@ -114,27 +106,6 @@ An email sent with the above form might result in the following message:
     Hope to hear from you soon.
 
     Cathy Chino
-
-### Overriding plugin settings
-
-If you create a [config file](https://craftcms.com/docs/config-settings) in your `craft/config` folder called `contactform.php`, you can override
-the plugin’s settings in the control panel.  Since that config file is fully [multi-environment](https://craftcms.com/docs/multi-environment-configs) aware, this is
-a handy way to have different settings across multiple environments.
-
-Here’s what that config file might look like along with a list of all of the possible values you can override.
-
-```php
-    <?php
-
-    return array(
-        'toEmail'             => 'bond@007.com',
-        'prependSubject'      => '',
-        'prependSender'       => '',
-        'allowAttachments'    => false,
-        'honeypotField'       => 'dieSpammers',
-        'successFlashMessage' => 'Congrats, yo!'
-    );
-```
 
 ### Dynamically adding email recipients (requires Craft 2.5+)
 You can programatically add email recipients from your template by adding a hidden input field named “toEmail” like so:
