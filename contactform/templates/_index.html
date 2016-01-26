@@ -5,11 +5,15 @@
 	<table class="data fullwidth">
 		<thead>
 			<tr>
+				<th></th>
 				<th scope="col" data-attribute="userName">
 					Name
 				</th>
 				<th scope="col" data-attribute="Email">
 					Email
+				</th>
+				<th scope="col" data-attribute="Message">
+					Message
 				</th>
 				<th scope="col" data-attribute="dateCreated">
 					Date Created
@@ -21,6 +25,7 @@
 				<tr data-id="{{ entry.id }}" data-name="{{ entry.name|t }}">
 					<td>{{ entry.name }}</td>
 					<td>{{ entry.email }}</td>
+					<td>{{ entry.message }}</td>
 					<td>{{ entry.dateCreated|date('d-m-Y') }}</td>
 				</tr>
 			{% endfor %}

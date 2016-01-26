@@ -37,6 +37,10 @@ class ContactFormPlugin extends BasePlugin {
 		);
 	}
 
+	public function onAfterInstall(){
+		craft()->request->redirect(UrlHelper::getCpUrl('settings/plugins/contactform'));
+	}
+
 	protected function defineSettings() {
 		return array(
 			'toEmail' => array(AttributeType::String, 'required' => true),
