@@ -4,26 +4,21 @@ namespace Craft;
 /**
  * Contact Form controller
  */
-class ContactFormController extends BaseController {
+class ContactForm_MessageController extends BaseController {
 
 	protected $allowAnonymous = true;
 
-	public function actionIndex(){
-        $variables['entries'] = craft()->contactForm->getEntries();
-
-        $this->renderTemplate('contactForm/_index', $variables);
-	}
-
-	public function actionAddMessage() {
+	public function actionAdd() {
 		$this->requirePostRequest();
 
 		$settings = craft()->plugins->getPlugin('contactform')->getSettings();
 
-		$message = new ContactFormModel();
+		$message = new ContactForm_MessageModel();
 		$savedBody = false;
 
 		$message->email = craft()->request->getPost('email');
 		$message->name = craft()->request->getPost('name');
+		$message->formId = craft()->request->getPost('formId');
 
 		if ($settings->allowAttachments) {
 			if (isset($_FILES['attachment']) && isset($_FILES['attachment']['name'])) {
@@ -86,8 +81,8 @@ class ContactFormController extends BaseController {
 
 		if ($message->validate()) {
 			// Only actually send it if the honeypot test was valid
-			if (!$this->validateHoneypot($settings->honeypotField) || craft()->contactForm->sendMessage($message)) {
-				craft()->contactForm->saveMessage($message);
+			if (!$this->validateHoneypot($settings->honeypotField) || craft()->contactForm_message->sendMessage($message)) {
+				craft()->contactForm_message->saveMessage($message);
 				if (craft()->request->isAjaxRequest()) {
 					$this->returnJson(array('success' => true, 'message' => $settings->successMessage));
 				} else {
@@ -117,6 +112,15 @@ class ContactFormController extends BaseController {
 				'message' => $message
 			));
 		}
+	}
+
+	public function actionGetEntry(array $variables = array()){
+		if(! empty($variables['entryId'])){
+    		$variables['entry'] = craft()->contactForm_message->getEntryById($variables['entryId']);
+        	$this->renderTemplate('contactForm/_entry', $variables);
+    	} else {
+    		throw new HttpException(404);
+    	}
 	}
 
 	protected function validateHoneypot($fieldName) {

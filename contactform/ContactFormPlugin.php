@@ -8,7 +8,7 @@ class ContactFormPlugin extends BasePlugin {
 	}
 
 	public function getVersion() {
-		return '1.0.1';
+		return '2.0.0';
 	}
 
 	public function getDeveloper(){
@@ -32,7 +32,19 @@ class ContactFormPlugin extends BasePlugin {
 	public function registerCpRoutes(){
 		return array(
 			'contactform' => array(
-                'action' => 'contactForm/index'
+                'action' => 'contactForm/form/index'
+            ),
+            'contactform/form/new' => array(
+                'action' => 'contactForm/form/edit'
+            ),
+            'contactform/form/(?P<formId>\d+)/edit' => array(
+                'action' => 'contactForm/form/edit'
+            ),
+            'contactform/form/(?P<formId>\d+)/entries' => array(
+                'action' => 'contactForm/form/getEntries'
+            ),
+            'contactform/entry/(?P<entryId>\d+)' => array(
+                'action' => 'contactForm/message/getEntry'
             ),
 		);
 	}

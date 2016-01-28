@@ -4,12 +4,12 @@ namespace Craft;
 /**
  * Contact Form service
  */
-class ContactFormService extends BaseApplicationComponent {
+class ContactForm_MessageService extends BaseApplicationComponent {
 
 	private $isValid = true;
 	private $fakeIt = false;
 
-	public function sendMessage(ContactFormModel $message) {
+	public function sendMessage(ContactForm_MessageModel $message) {
 		$settings = craft()->plugins->getPlugin('contactform')->getSettings();
 
 		if (!$settings->toEmail) {
@@ -52,23 +52,49 @@ class ContactFormService extends BaseApplicationComponent {
 		return false;
 	}
 
-	public function saveMessage(ContactFormModel $message){
+	public function saveMessage(ContactForm_MessageModel $message){
 		$record = new ContactForm_MessageRecord();
 		if(!empty($message->name)){
 			$record->setAttribute('name', $message->name);
 		}
 		$record->setAttribute('email', $message->email);
+		$record->setAttribute('formId', $message->formId);
 		$record->setAttribute('message', $message->message);
-		$record->save();
+		$record->validate();
+        $message->addErrors($record->getErrors());
+        // Save message
+        if (! $message->hasErrors()) {
+            // Save in database
+            return $record->save();
+        }
+        return false;
 	}
 
 	public function getEntries(){
 		$entryRecords = ContactForm_MessageRecord::model()->ordered()->findAll();
-		$entries = ContactFormModel::populateModels($entryRecords);
+		$entries = ContactForm_MessageModel::populateModels($entryRecords);
 		return $entries;
 	}
 
-	private function validateMessage(ContactFormModel $message){
+	public function getEntryById($entryId = null){
+		if($entryId == null){
+			return false;
+		}
+		$entryRecord = ContactForm_MessageRecord::model()->findByPk($entryId);
+		$entry = ContactForm_MessageModel::populateModel($entryRecord);
+		return $entry;
+	}
+
+	public function getEntriesByFormId($formId = null){
+		if($formId == null){
+			return false;
+		}
+		$entryRecords = ContactForm_MessageRecord::model()->ordered()->findAllByAttributes(['formId' => $formId]);
+		$entries = ContactForm_MessageModel::populateModels($entryRecords);
+		return $entries;
+	}
+
+	private function validateMessage(ContactForm_MessageModel $message){
 		// echo '<pre>';
 		// var_dump($message);
 		// die();

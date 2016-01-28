@@ -9,9 +9,10 @@ class ContactForm_MessageRecord extends BaseRecord{
 	protected function defineAttributes(){
 		return array(
 			'name' => AttributeType::Name,
-			'email' => AttributeType::Email,
-			'message' => AttributeType::String,
+			'email' => array(AttributeType::Email, 'required' => true),
+			'message' => array(AttributeType::String, 'required' => true),
 			'formId' => AttributeType::Number,
+			'attachment' => AttributeType::String,
 		);
 	}
 

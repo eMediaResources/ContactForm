@@ -30,7 +30,7 @@ Your contact form template can look something like this:
 
 <form method="post" action="" accept-charset="UTF-8">
     {{ getCsrfInput() }}
-    <input type="hidden" name="action" value="contactForm/sendMessage">
+    <input type="hidden" name="action" value="contactForm/message/add">
     <input type="hidden" name="redirect" value="contact/thanks">
 
     <h3><label for="name">Your Name</label></h3>
@@ -107,33 +107,6 @@ An email sent with the above form might result in the following message:
 
     Cathy Chino
 
-### Dynamically adding email recipients (requires Craft 2.5+)
-You can programatically add email recipients from your template by adding a hidden input field named “toEmail” like so:
-
-    <input type="hidden" name="toEmail" value="{{ 'me@example.com'|hash }}">
-
-If you want to add multiple recipients, you can provide a comma separated list of emails like so:
-
-    <input type="hidden" name="toEmail" value="{{ 'me@example.com,me2@example.com'|hash }}">
-
-Then from your `craft/config/contactform.php` config file, you’ll need to add a bit of logic:
-
-```php
-    <?php
-    namespace Craft;
-
-    $toEmail = craft()->request->getPost('toEmail');
-    $toEmail = craft()->security->validateData($toEmail);
-
-    return array(
-        'toEmail' => ($toEmail ?: null),
-        ...
-    );
-);
-```
-
-In this example if `$toEmail` does not exist or fails validation (it was tampered with), the plugin will fallback to the “toEmail” defined in the plugin settings, so you must have that defined as well.
-
 ### The “Honeypot” field
 The [Honeypot Captcha][honeypot] is a simple anti-spam technique, which greatly reduces the efficacy of spambots without expecting your visitors to decipher various tortured letterforms.
 
@@ -191,84 +164,12 @@ $('#my-form').submit(function(ev) {
         }
     });
 });
-```
-
-### The `contactForm.beforeSend` event
-
-Other plugins can be notified right before an email is sent with the Contact Form plugin,
-and they are even given a chance to prevent the email from getting sent at all.
-
-```php
-class SomePlugin extends BasePlugin
-{
-    // ...
-
-    public function init()
-    {
-        craft()->on('contactForm.beforeSend', function(ContactFormEvent $event) {
-            $message = $event->params['message'];
-
-            // ...
-
-            if ($isVulgar)
-            {
-                // Setting $isValid to false will cause a validation error
-                // and prevent the email from being sent
-
-                $message->addError('message', 'Do you kiss your mother with those lips?');
-                $event->isValid = false;
-            }
-
-            if ($isSpam)
-            {
-                // Setting $fakeIt to true will make things look as if the email was sent,
-                // but really it wasn't
-
-                $event->fakeIt = true;
-            }
-        });
-    }
-}
-```
 
 ## Changelog
 
-### 1.7.0
+### 2.0.0
 
-* Added the ability to access individual message fields values via `message.messageFields` when a validation error occurred. For example, the value of the input `message[Phone]` can now be accessed via `message.messageFields['Phone']`.
-* Custom message field values only have a single line break between them in the generated email body now, rather than two.
-
-### 1.6.0
-
-* Added the ability to attach multiple files to the contact email.
-* Added the ability to change the flash success message via the "successFlashMessage" setting.
-* Added the ability to override plugin settings via a `craft/config/contactform.php` config setting.
-* The "prependSender" and "prependSubject" settings can now be empty strings.
-* Fixed a bug where the "allowAttachments" config setting wasn't being respected.
-
-### 1.5.0
-
-* Added support for some Craft 2.5 features.
-
-### 1.4.0
-
-* Added support for passing `{fromName}`, `{fromEmail}`, and `{subject}` in the ‘redirect’ URL.
-
-### 1.3.0
-
-* Added support for multiple email addresses
-* Added the ContactFormService
-* Added the `contactForm.beforeSend` event, allowing third party plugins to add extra validation
-
-### 1.2.0
-
-* Added honeypot captcha support
-
-### 1.1.0
-
-* Added the ability to submit attachments
-* Added the ability to submit the form over Ajax
-* Added the ability to submit checkbox lists, which get compiled into comma-separated lists in the email
+* Major Overhaul of the Plugin Fields and creating multiple Forms and grouping entries by form on the admin.
 
 ### 1.0.0
 

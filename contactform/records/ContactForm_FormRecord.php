@@ -6,6 +6,12 @@ class ContactForm_FormRecord extends BaseRecord{
 		return 'contactform_form';
 	}
 
+	public function defineRelations(){
+		return array(
+			'entries' => array(static::HAS_MANY, 'ContactForm_MessageRecord', 'formId'),
+		);
+	}
+
 	protected function defineAttributes(){
 		return array(
 			'name' => AttributeType::Name,

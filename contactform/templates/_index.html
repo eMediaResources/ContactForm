@@ -1,35 +1,51 @@
 {% extends '_layouts/cp' %}
-{% set title = "Entries"|t %}
+{% set title = "Forms"|t %}
+{% if currentUser.admin or settings.canDoActions %}
+    {% set extraPageHeaderHtml %}
+        <div class="buttons right">
+            <div class="btngroup submit">
+                <a class="btn submit add icon" href="{{ url('contactform/form/new') }}">{{ 'New Form'|t }}</a>
+            </div>
+        </div>
+    {% endset %}
+{% endif %}
 {% set content %}
 	<div class="tableview">
-	<table class="data fullwidth">
-		<thead>
-			<tr>
-				<th></th>
-				<th scope="col" data-attribute="userName">
-					Name
-				</th>
-				<th scope="col" data-attribute="Email">
-					Email
-				</th>
-				<th scope="col" data-attribute="Message">
-					Message
-				</th>
-				<th scope="col" data-attribute="dateCreated">
-					Date Created
-				</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for entry in entries %}
-				<tr data-id="{{ entry.id }}" data-name="{{ entry.name|t }}">
-					<td>{{ entry.name }}</td>
-					<td>{{ entry.email }}</td>
-					<td>{{ entry.message }}</td>
-					<td>{{ entry.dateCreated|date('d-m-Y') }}</td>
+	{% if forms is not empty %}
+		<table class="data fullwidth">
+			<thead>
+				<tr>
+					<th scope="col" data-attribute="formId">
+						Form ID
+					</th>
+					<th scope="col" data-attribute="Email">
+						Form Name
+					</th>
+					<th scope="col" data-attribute="Form">
+						Entries
+					</th>
+					<th scope="col" data-attribute="dateCreated">
+						Settings
+					</th>
 				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+				{% for form in forms %}
+					<tr data-id="{{ form.id }}" data-name="{{ form.name|t }}">
+						<td class="thin">{{ form.id }}</td>
+						<td>{{ form.name }}</td>
+						<td><a href="{{ url('contactform/form/' ~ form.id ~ '/entries')}}">{{ 0 }}</a></td>
+						{% if currentUser.admin or settings.canDoActions %}
+                        <td class="thin">
+                            <a href="{{ url('contactform/form/' ~ form.id ~ '/edit') }}" class="settings icon" title="{{ 'Settings'|t }}"></a>
+                        </td>
+                        {% endif %}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<p>No forms</p>
+	{% endif %}
 </div>
 {% endset %}

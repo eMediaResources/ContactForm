@@ -1,0 +1,11 @@
+{% extends '_layouts/cp' %}
+{% set title = "Single Entry"|t %}
+{% set content %}
+	<div class="tableview">
+	{% if entry is not empty %}
+		<p><strong>Message</strong></p>
+
+		<p>{{entry.message}}</p>
+	{% endif %}
+</div>
+{% endset %}
