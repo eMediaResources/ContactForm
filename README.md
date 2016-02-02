@@ -31,6 +31,7 @@ Your contact form template can look something like this:
 <form method="post" action="" accept-charset="UTF-8">
     {{ getCsrfInput() }}
     <input type="hidden" name="action" value="contactForm/message/add">
+    <input type="hidden" name="formId" value="1">
     <input type="hidden" name="redirect" value="contact/thanks">
 
     <h3><label for="name">Your Name</label></h3>
@@ -164,6 +165,13 @@ $('#my-form').submit(function(ev) {
         }
     });
 });
+```
+
+If using getCrsfInput()
+```js
+window.csrfTokenName = "{{ craft.config.csrfTokenName|e('js') }}";
+window.csrfTokenValue = "{{ craft.request.csrfToken|e('js') }}";
+```
 
 ## Changelog
 
