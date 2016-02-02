@@ -16,6 +16,12 @@ class ContactForm_MessageRecord extends BaseRecord{
 		);
 	}
 
+	public function defineRelations(){
+		return array(
+			'forms' => array(static::BELONGS_TO, 'ContactForm_FormRecord', 'formId'),
+		);
+	}
+
 	public function scopes() {
         return array(
             'ordered' => array('order' => 'dateCreated desc'),

@@ -6,6 +6,10 @@ namespace Craft;
  */
 class ContactForm_FormService extends BaseApplicationComponent {
 
+    public function run(){
+        $this->_createFirstForm();
+    }
+
 	public function getFormById($id = null){
 		$formRecord = ContactForm_FormRecord::model()->findById($id);
         if ($formRecord) {
@@ -37,9 +41,23 @@ class ContactForm_FormService extends BaseApplicationComponent {
 	}
 
     public function getForms(){
-        $formRecords = ContactForm_FormRecord::model()->findAll();
+        $formRecords = ContactForm_FormRecord::model()->with('entryCount')->findAll();
         $forms = ContactForm_FormModel::populateModels($formRecords);
         return $forms;
+    }
+
+
+    private function _createFirstForm(){
+        $form = new ContactForm_FormModel();
+        $form->setAttributes(array(
+                "name" => "Contact Form",
+            )
+        );
+        if($this->saveForm($form)){
+            ContactFormPlugin::log('Contact Form Created', LogLevel::Info);
+        } else {
+            ContactFormPlugin::log('Error Creating First Form', LogLevel::Info);
+        }
     }
 
 }

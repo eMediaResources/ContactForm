@@ -50,6 +50,7 @@ class ContactFormPlugin extends BasePlugin {
 	}
 
 	public function onAfterInstall(){
+		craft()->contactForm_form->run();
 		craft()->request->redirect(UrlHelper::getCpUrl('settings/plugins/contactform'));
 	}
 

@@ -175,6 +175,10 @@ window.csrfTokenValue = "{{ craft.request.csrfToken|e('js') }}";
 
 ## Changelog
 
+### 2.0.1
+
+* Auto Created Contact Form and fixed entry count on Admin
+
 ### 2.0.0
 
 * Major Overhaul of the Plugin Fields and creating multiple Forms and grouping entries by form on the admin.

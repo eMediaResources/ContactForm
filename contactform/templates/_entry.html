@@ -3,9 +3,10 @@
 {% set content %}
 	<div class="tableview">
 	{% if entry is not empty %}
+		<p><strong>Name</strong>: {{entry.name}}</p>
+		<p><strong>Email</strong>: {{entry.email}}</p>
 		<p><strong>Message</strong></p>
-
-		<p>{{entry.message}}</p>
+		<p>{{entry.message | nl2br}}</p>
 	{% endif %}
 </div>
 {% endset %}

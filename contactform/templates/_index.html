@@ -34,7 +34,11 @@
 					<tr data-id="{{ form.id }}" data-name="{{ form.name|t }}">
 						<td class="thin">{{ form.id }}</td>
 						<td>{{ form.name }}</td>
-						<td><a href="{{ url('contactform/form/' ~ form.id ~ '/entries')}}">{{ 0 }}</a></td>
+						<td>
+						{% if form.entryCount > 0 %}<a href="{{ url('contactform/form/' ~ form.id ~ '/entries')}}">{% endif %}
+						{{ form.entryCount }}
+						{% if form.entryCount > 0 %}</a>{% endif %}
+						</td>
 						{% if currentUser.admin or settings.canDoActions %}
                         <td class="thin">
                             <a href="{{ url('contactform/form/' ~ form.id ~ '/edit') }}" class="settings icon" title="{{ 'Settings'|t }}"></a>
