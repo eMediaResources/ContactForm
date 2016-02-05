@@ -1,6 +1,6 @@
 {% extends '_layouts/cp' %}
 {% set title = "Forms"|t %}
-{% if currentUser.admin or settings.canDoActions %}
+{% if currentUser.admin %}
     {% set extraPageHeaderHtml %}
         <div class="buttons right">
             <div class="btngroup submit">
@@ -24,9 +24,11 @@
 					<th scope="col" data-attribute="Form">
 						Entries
 					</th>
-					<th scope="col" data-attribute="dateCreated">
-						Settings
-					</th>
+					{% if currentUser.admin %}
+						<th scope="col" data-attribute="dateCreated">
+							Settings
+						</th>
+					{% endif %}
 				</tr>
 			</thead>
 			<tbody>
@@ -39,10 +41,10 @@
 						{{ form.entryCount }}
 						{% if form.entryCount > 0 %}</a>{% endif %}
 						</td>
-						{% if currentUser.admin or settings.canDoActions %}
-                        <td class="thin">
-                            <a href="{{ url('contactform/form/' ~ form.id ~ '/edit') }}" class="settings icon" title="{{ 'Settings'|t }}"></a>
-                        </td>
+						{% if currentUser.admin %}
+							<td class="thin">
+	                            <a href="{{ url('contactform/form/' ~ form.id ~ '/edit') }}" class="settings icon" title="{{ 'Settings'|t }}"></a>
+                            </td>
                         {% endif %}
 					</tr>
 				{% endfor %}
