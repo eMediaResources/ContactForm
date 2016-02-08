@@ -6,11 +6,18 @@ class ContactForm_MessageModel extends BaseModel {
 		return array(
 			'id' => AttributeType::Number,
 			'name' => array(AttributeType::String, 'label' => 'Your Name'),
-			'email' => array(AttributeType::Email,  'required' => true, 'label' => 'Your Email'),
-			'message' => array(AttributeType::String, 'required' => true, 'label' => 'Message'),
+			'email' => array(AttributeType::Email, 'label' => 'Your Email'),
+			'message' => array(AttributeType::String, 'label' => 'Message'),
 			'formId' => AttributeType::Number,
 			'attachment' => AttributeType::Mixed,
 			'dateCreated' => AttributeType::DateTime,
 		);
+	}
+
+	public function rules(){
+		return [
+			[['email', 'message'], 'required'],
+			['email', 'email'],
+		];
 	}
 }

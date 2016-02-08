@@ -60,6 +60,18 @@ class ContactForm_MessageService extends BaseApplicationComponent {
 		$record->setAttribute('email', $message->email);
 		$record->setAttribute('formId', $message->formId);
 		$record->setAttribute('message', $message->message);
+
+		if(isset($message->attachment)){
+			$currentAttachments = "";
+			$len = count($message->attachment);
+			for($i=0; $i < $len; $i++){
+				$currentAttachments .= $message->attachment[$i]->getName();
+				if($i !== ($len - 1)){
+					$currentAttachments .= ", ";
+				}
+			}
+			$record->setAttribute('attachment', $currentAttachments);
+		}
 		$record->validate();
         $message->addErrors($record->getErrors());
         // Save message
@@ -95,8 +107,5 @@ class ContactForm_MessageService extends BaseApplicationComponent {
 	}
 
 	private function validateMessage(ContactForm_MessageModel $message){
-		// echo '<pre>';
-		// var_dump($message);
-		// die();
 	}
 }

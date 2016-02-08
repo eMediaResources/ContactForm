@@ -109,7 +109,8 @@ class ContactForm_MessageController extends BaseController {
 			}
 
 			craft()->urlManager->setRouteVariables(array(
-				'message' => $message
+				'message' => $message,
+				'errors' => $message->getErrors(),
 			));
 		}
 	}

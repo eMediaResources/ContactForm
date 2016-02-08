@@ -16,17 +16,15 @@ To install Contact Form, follow these steps:
 Your contact form template can look something like this:
 
 ```jinja
-{% macro errorList(errors) %}
-    {% if errors %}
-        <ul class="errors">
-            {% for error in errors %}
+ {% if errors is defined %}
+    <ul class="errors">
+        {% for field in errors %}
+            {% for error in items %}
                 <li>{{ error }}</li>
             {% endfor %}
-        </ul>
-    {% endif %}
-{% endmacro %}
-
-{% from _self import errorList %}
+        {% endfor %}
+    </ul>
+{% endif %}
 
 <form method="post" action="" accept-charset="UTF-8">
     {{ getCsrfInput() }}
@@ -174,6 +172,11 @@ window.csrfTokenValue = "{{ craft.request.csrfToken|e('js') }}";
 ```
 
 ## Changelog
+
+### 2.0.2
+
+* Better Error handling on the template part
+* Saving Attachment names to the database and displaying them on the single entry view of the CP
 
 ### 2.0.1
 
