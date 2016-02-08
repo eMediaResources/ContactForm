@@ -165,10 +165,12 @@ $('#my-form').submit(function(ev) {
 });
 ```
 
-If using getCrsfInput()
+If using getCrsfInput() make sure you add these after the closing form tag.
 ```js
+<script>
 window.csrfTokenName = "{{ craft.config.csrfTokenName|e('js') }}";
 window.csrfTokenValue = "{{ craft.request.csrfToken|e('js') }}";
+</script>
 ```
 
 ## Changelog
