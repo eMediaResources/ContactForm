@@ -14,7 +14,19 @@
 }) }}
 
 {{ forms.textField({
-	label:        "Sender Text"|t,
+	first:        true,
+	label:        "From Email"|t,
+	required:     true,
+	id:           'fromEmail',
+	name:         'fromEmail',
+	instructions: "The email address that the contact form will send emails from."|t,
+	value:        settings.fromEmail,
+	disabled:     (craft.config.get('fromEmail', 'contactform') is not sameas(null)),
+	errors:       settings.getErrors('fromEmail')
+}) }}
+
+{{ forms.textField({
+	label:        "Sender"|t,
 	id:           'prependSender',
 	name:         'prependSender',
 	instructions: "Text that will be prepended to the email’s From Name to inform who the Contact Form actually was sent by."|t,
@@ -24,7 +36,7 @@
 }) }}
 
 {{ forms.textField({
-	label:        "Subject Text"|t,
+	label:        "Subject"|t,
 	id:           'subject',
 	name:         'subject',
 	value:        (settings.subject ? settings.subject : ""),
@@ -52,11 +64,21 @@
 }) }}
 
 {{ forms.textField({
-	label:        "Success Flash Message"|t,
+	label:        "Success Message"|t,
 	id:           "successMessage",
 	name:         "successMessage",
-	instructions: "The flash message displayed after successfully sending a message."|t,
+	instructions: "The message displayed after successfully sending a message."|t,
 	value:        settings.successMessage,
 	disabled:     (craft.config.get('successMessage', 'contactform') is not sameas(null)),
 	errors:       settings.getErrors('successMessage')
+}) }}
+
+{{ forms.lightswitchField({
+	label:        "Add Name and Email to message body?"|t,
+	instructions: "By default name and email are part of the email header and ommitted from message body."|t,
+	id:           'addNameEmailBody',
+	name:         'addNameEmailBody',
+	on:           settings.addNameEmailBody,
+	disabled:     (craft.config.get('addNameEmailBody', 'contactform') is not sameas(null)),
+	errors:       settings.getErrors('addNameEmailBody')
 }) }}

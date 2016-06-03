@@ -57,11 +57,16 @@ class ContactFormPlugin extends BasePlugin {
 	protected function defineSettings() {
 		return array(
 			'toEmail' => array(AttributeType::String, 'required' => true),
+			'fromEmail' => array(AttributeType::String,
+				'required' => true,
+				'default' => Craft::t('no-reply@{domain}', array('domain' => craft()->request->getServerName()))
+			),
 			'prependSender' => array(AttributeType::String, 'default' => Craft::t('On behalf of')),
 			'subject' => array(AttributeType::String, 'default' => Craft::t('New message from {siteName}', array('siteName' => craft()->getSiteName()))),
 			'allowAttachments' => AttributeType::Bool,
 			'honeypotField' => AttributeType::String,
 			'successMessage' => array(AttributeType::String, 'default' => Craft::t('Your message has been sent.'), 'required' => true),
+			'addNameEmailBody' => AttributeType::Bool,
 		);
 	}
 }

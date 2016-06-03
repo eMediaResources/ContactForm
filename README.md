@@ -175,6 +175,11 @@ window.csrfTokenValue = "{{ craft.request.csrfToken|e('js') }}";
 
 ## Changelog
 
+### 2.0.3
+
+* Added New option on Settings to add Name and Email to Body of the email message
+* Added new option to modify the from address by default uses no-reply@{domain} email
+
 ### 2.0.2
 
 * Better Error handling on the template part

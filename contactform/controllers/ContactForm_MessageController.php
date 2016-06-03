@@ -35,6 +35,13 @@ class ContactForm_MessageController extends BaseController {
 		$postedMessage = craft()->request->getPost('message');
 
 		if ($postedMessage) {
+
+			$bodyHeaders = '';
+			if($settings->addNameEmailBody){
+				$bodyHeaders .= "Name: ".$message->name;
+				$bodyHeaders .= "\n\nEmail: ".$message->email."\n\n";
+			}
+
 			if (is_array($postedMessage)) {
 				$savedBody = false;
 
@@ -72,10 +79,10 @@ class ContactForm_MessageController extends BaseController {
 						$compiledMessage .= $postedMessage['body'];
 					}
 
-					$message->message = $compiledMessage;
+					$message->message = $bodyHeaders.$compiledMessage;
 				}
 			} else {
-				$message->message = $postedMessage;
+				$message->message = $bodyHeaders.$postedMessage;
 			}
 		}
 

@@ -15,6 +15,9 @@ class ContactForm_MessageService extends BaseApplicationComponent {
 		if (!$settings->toEmail) {
 			throw new Exception('The "To Email" address is not set on the plugin’s settings page.');
 		}
+		if (!$settings->fromEmail) {
+			throw new Exception('The "From Email" address is not set on the plugin’s settings page.');
+		}
 
 		$this->validateMessage($message);
 
@@ -27,7 +30,7 @@ class ContactForm_MessageService extends BaseApplicationComponent {
 					$email = new EmailModel();
 					$emailSettings = craft()->email->getSettings();
 
-					$email->fromEmail = $emailSettings['emailAddress'];
+					$email->fromEmail = $settings->fromEmail;
 					$email->replyTo = $message->email;
 					$email->sender = $emailSettings['emailAddress'];
 					$email->fromName = $settings->prependSender . ($settings->prependSender && $message->name ? ' ' : '') . $message->name;
