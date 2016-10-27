@@ -88,8 +88,8 @@ class ContactForm_MessageController extends BaseController {
 
 		if ($message->validate()) {
 			// Only actually save to the db if the honeypot test was valid
-			if ($this->validateHoneypot($settings->honeypotField) {
-				craft()->contactForm_message->saveMessage($message);			
+			if ($this->validateHoneypot($settings->honeypotField)) {
+				craft()->contactForm_message->saveMessage($message);
 			}
 			// Only actually send email if the honeypot test was valid, but show success regardless
 			if (!$this->validateHoneypot($settings->honeypotField) || craft()->contactForm_message->sendMessage($message)) {

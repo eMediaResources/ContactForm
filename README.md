@@ -175,6 +175,10 @@ window.csrfTokenValue = "{{ craft.request.csrfToken|e('js') }}";
 
 ## Changelog
 
+### 2.0.4
+
+* Fixed Typo from previous merge
+
 ### 2.0.3
 
 * Added New option on Settings to add Name and Email to Body of the email message
