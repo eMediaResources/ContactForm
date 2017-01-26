@@ -1,31 +1,11 @@
 [
   {
-    "version": "1.7.0",
-    "downloadUrl": "https://github.com/eMediaResources/ContactForm/archive/1.7.0.zip",
-    "date": "2016-01-18T13:00:00-08:00",
+    "version": "2.0.5",
+    "downloadUrl": "https://github.com/Xpertbot/ContactForm/archive/master.zip",
+    "date": "2017-01-26T17:25:04.592Z",
     "notes": [
-      "[Added] Added the ability to access individual message fields values via `message.messageFields` when a validation error occurred. For example, the value of the input `message[Phone]` can now be accessed via `message.messageFields['Phone']`.",
-      "[Improved] Custom message field values only have a single line break between them in the generated email body now, rather than two."
-    ]
-  },
-  {
-    "version": "1.6.0",
-    "downloadUrl": "https://github.com/eMediaResources/ContactForm/archive/1.6.0.zip",
-    "date": "2015-12-20T15:00:00-08:00",
-    "notes": [
-      "[Added] Added the ability to attach multiple files to the contact email.",
-      "[Added] Added the ability to change the flash success message via the “successFlashMessage” setting.",
-      "[Added] Added the ability to override plugin settings via a `craft/config/contactform.php` config file.",
-      "[Improved] The “prependSender” and “prependSubject” settings can now be empty strings.",
-      "[Fixed] Fixed a bug where the “allowAttachments” config setting wasn’t being respected."
-    ]
-  },
-  {
-    "version": "1.5",
-    "downloadUrl": "https://github.com/eMediaResources/ContactForm/archive/1.5.0.zip",
-    "date": "2015-12-20T15:00:00-08:00",
-    "notes": [
-      "[Added] Added support for some Craft 2.5 features including update notifications."
-    ]
+      "[Fixed]Integrated new releases url and description"
+    ],
+    "critical": false
   }
 ]

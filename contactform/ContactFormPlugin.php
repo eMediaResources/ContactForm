@@ -19,6 +19,18 @@ class ContactFormPlugin extends BasePlugin {
 		return 'https://www.wheelinteractive.com';
 	}
 
+  public function getDescription() {
+    return 'Contact Form for multiple forms and database integration';
+  }
+
+  public function getDocumentationUrl() {
+    return 'https://github.com/xpertbot/ContactForm';
+  }
+
+  public function getReleaseFeedUrl() {
+    return 'https://raw.githubusercontent.com/xpertbot/ContactForm/master/releases.json';
+  }
+
 	public function hasCpSection(){
 		return true;
 	}
