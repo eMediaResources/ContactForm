@@ -175,6 +175,10 @@ window.csrfTokenValue = "{{ craft.request.csrfToken|e('js') }}";
 
 ## Changelog
 
+### 2.0.5
+
+* Changed default values for the settings page
+
 ### 2.0.4
 
 * Fixed Typo from previous merge

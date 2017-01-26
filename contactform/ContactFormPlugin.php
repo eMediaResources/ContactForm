@@ -8,15 +8,15 @@ class ContactFormPlugin extends BasePlugin {
 	}
 
 	public function getVersion() {
-		return '2.0.4';
+		return '2.0.5';
 	}
 
 	public function getDeveloper(){
-		return 'e-Media Resources';
+		return 'Wheel Interactive';
 	}
 
 	public function getDeveloperUrl(){
-		return 'http://e-mediaresources.com';
+		return 'https://www.wheelinteractive.com';
 	}
 
 	public function hasCpSection(){
@@ -56,7 +56,10 @@ class ContactFormPlugin extends BasePlugin {
 
 	protected function defineSettings() {
 		return array(
-			'toEmail' => array(AttributeType::String, 'required' => true),
+			'toEmail' => array(AttributeType::String,
+        'required' => true,
+        'default' => craft()->systemSettings->getSetting('email', 'emailAddress'),
+      ),
 			'fromEmail' => array(AttributeType::String,
 				'required' => true,
 				'default' => craft()->systemSettings->getSetting('email', 'emailAddress')
