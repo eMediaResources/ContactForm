@@ -20,7 +20,7 @@ class ContactFormPlugin extends BasePlugin {
 	}
 
   public function getDescription() {
-    return 'Contact Form for multiple forms and database integration';
+    return 'Plugin for multiple forms and database integration';
   }
 
   public function getDocumentationUrl() {
