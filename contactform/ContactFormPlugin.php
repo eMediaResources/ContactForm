@@ -59,7 +59,7 @@ class ContactFormPlugin extends BasePlugin {
 			'toEmail' => array(AttributeType::String, 'required' => true),
 			'fromEmail' => array(AttributeType::String,
 				'required' => true,
-				'default' => Craft::t('no-reply@{domain}', array('domain' => craft()->request->getServerName()))
+				'default' => craft()->systemSettings->getSetting('email', 'emailAddress')
 			),
 			'prependSender' => array(AttributeType::String, 'default' => Craft::t('On behalf of')),
 			'subject' => array(AttributeType::String, 'default' => Craft::t('New message from {siteName}', array('siteName' => craft()->getSiteName()))),
