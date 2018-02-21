@@ -1,3 +1,6 @@
+# Craft 3 Development
+Because of the new way plugins work with Craft 3 - Development for this plugin has been completely changed and moved to a [new Repository](https://github.com/xpertbot/craft-wheelform).
+
 # Contact Form plugin for Craft
 
 This plugin allows you to add an email contact form to your website.
